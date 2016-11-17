@@ -1,0 +1,58 @@
+setwd("C:/Users/kitae/Dropbox/카이스트/[3] 2016 가을학기/녹경 및 녹색기말")
+rawdata <- read.csv("thompson_clean1.csv")
+
+#install.packages("xlsx")
+#install.packages("rJava")
+#library(rJava)
+#library(xlsx)
+
+#필요한 var만 남김
+#cleaned <- subset(renewable, select = c(
+#  Age.at.Financing..Months.,
+#  Company.Current.Operating.Stage,
+#  Company.Current.Public.Status,
+#  Company.Founded.Date,
+#  Company.ID,
+#  Company.IPO.Date,
+#  Company.Name,
+#  Company.Nation,
+#  Company.Number.of.Employees,
+#  Company.Status,
+#  Company.VE.Primary.Industry.Sub.Group.3,
+#  Firm...Total.Number.of.Deals,
+#  Firm.Founded.Date,
+#  Firm.Industry.Focus,
+#  Firm.Name,
+#  Firm.Nation,
+#  Firm.Status,
+#  Firm.Type,
+#  Fund.Investor.Type,
+#  Fund.Name,
+#  Fund.Nation,
+#  Fund.Type))
+
+#possible candidates
+clean.tech <- subset(rawdata, Company.Technology.Application == "Clean Technology")
+
+#clean tech 중 CVC만 뽑자
+clean.cvc <- subset(clean.tech, Firm.Type == "Corporate PE/Venture")
+
+#근데 CVC가 어떤회산지 안밝힌 경우가 있네? 빼자
+clean.cvc.disclosed <- subset(clean.cvc, Firm.Name != "Undisclosed Firm")
+#이 데이터 따로저장
+write.table(clean.cvc.disclosed, "cvc_clean.csv", sep=",")
+
+#타겟 회사 리스트
+#target.list.full <- data.frame(unique(clean.cvc.disclosed$Company.Name))
+
+#타겟 회사 리스트 with disclosed CVC
+target.list <- data.frame(unique(clean.cvc.disclosed$Company.Name))
+#투자 CVC 리스트
+investor.list <- data.frame(unique(clean.cvc.disclosed$Firm.Name ))
+
+
+View(target.list)
+View(investor.list)
+
+
+
