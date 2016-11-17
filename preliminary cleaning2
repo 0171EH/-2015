@@ -1,0 +1,69 @@
+setwd("C:/Users/kitae/Dropbox/카이스트/[3] 2016 가을학기/녹경 및 녹색기말")
+rawdata <- read.csv("thompson_clean1.csv")
+
+#install.packages("xlsx")
+#install.packages("rJava")
+#library(rJava)
+#library(xlsx)
+
+#필요한 var만 남김
+cleaned <- subset(renewable, select = c(
+  Age.at.Financing..Months.,
+  Company.Current.Operating.Stage,
+  Company.Current.Public.Status,
+  Company.Founded.Date,
+  Company.ID,
+  Company.IPO.Date,
+  Company.Name,
+  Company.Nation,
+  Company.Number.of.Employees,
+  Company.Status,
+  Company.VE.Primary.Industry.Sub.Group.3,
+  Firm...Total.Number.of.Deals,
+  Firm.Founded.Date,
+  Firm.Industry.Focus,
+  Firm.Name,
+  Firm.Nation,
+  Firm.Status,
+  Firm.Type,
+  Fund.Investor.Type,
+  Fund.Name,
+  Fund.Nation,
+  Fund.Type))
+
+#possible candidates
+alt.energy <- subset(rawdata, Company.VE.Primary.Industry.Sub.Group.2 == "Energy, Alternative")
+enh.rec.energy <- subset(rawdata, Company.VE.Primary.Industry.Sub.Group.2 == "Energy, Enhanced Recovery")
+other.energy <- subset(rawdata, Company.VE.Primary.Industry.Sub.Group.2 == "Energy, Other")
+conserv.energy <- subset(rawdata, Company.VE.Primary.Industry.Sub.Group.2 == "Energy, Conservation")
+pollut.recycle <- subset(rawdata, Company.VE.Primary.Industry.Sub.Group.2 == "Pollution and Recycling")
+Agri.Forest <- subset(rawdata, Company.VE.Primary.Industry.Sub.Group.2 == "Agricultural, Forestry")
+
+#candidates 확인
+data.frame(unique(alt.energy$Company.VE.Primary.Industry.Sub.Group.3))
+data.frame(unique(enh.rec.energy$Company.VE.Primary.Industry.Sub.Group.3))
+data.frame(unique(other.energy$Company.VE.Primary.Industry.Sub.Group.3))
+data.frame(unique(conserv.energy$Company.VE.Primary.Industry.Sub.Group.3))
+data.frame(unique(pollut.recycle$Company.VE.Primary.Industry.Sub.Group.3))
+data.frame(unique(Agri.Forest$Company.VE.Primary.Industry.Sub.Group.3))
+#해보니까 alt.energy가 맞음
+
+#renweable 중 CVC만 뽑자
+renewable.cvc <- subset(alt.energy, Firm.Type == "Corporate PE/Venture")
+#근데 CVC가 어떤회산지 안밝힌 경우가 있네? 빼자
+renewable.cvc.disclosed <- subset(renewable.cvc, Firm.Name != "Undisclosed Firm")
+#이 데이터 따로저장
+write.table(renewable.cvc.disclosed, "cvc_renewable.csv", sep=",")
+
+#타겟 회사 리스트
+#target.list.full <- data.frame(unique(renewable.cvc.disclosed$Company.Name))
+
+#타겟 회사 리스트 with disclosed CVC
+target.list <- data.frame(unique(renewable.cvc.disclosed$Company.Name))
+#투자 CVC 리스트
+investor.list <- data.frame(unique(renwable.cvc.disclosed$Firm.Name ))
+
+
+
+
+
