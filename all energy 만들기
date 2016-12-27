@@ -41,4 +41,18 @@ temp.CVC$CVC.Fund <- 1
 temp.non$CVC.Fund <- 0
 all.energy <- rbind(temp.CVC, temp.non)
 
+#factor를 numeric variable로
+all.energy$Age.at.Financing..Months. <- as.numeric(all.energy$Age.at.Financing..Months.)
+all.energy$Equity.Amount.Disclosed..USD.Mil. <- as.numeric(all.energy$Equity.Amount.Disclosed..USD.Mil.)
+all.energy$Equity.Amount.Estimated..USD.Mil. <- as.numeric(all.energy$Equity.Amount.Estimated..USD.Mil.)
+all.energy$Firm.Capital.Under.Management..USD.Mil. <- as.numeric(all.energy$Firm.Capital.Under.Management..USD.Mil.)
+all.energy$Total.Estimated.Equity.Invested.by.Firm.to.Date..USD.Mil. <- as.numeric(all.energy$Total.Estimated.Equity.Invested.by.Firm.to.Date..USD.Mil.)
+all.energy$Total.Estimated.Equity.Invested.by.Fund.to.Date..USD.Mil. <- as.numeric(all.energy$Total.Estimated.Equity.Invested.by.Fund.to.Date..USD.Mil.)
+all.energy$Total.Known.Equity.Invested.by.Firm.to.Date..USD.Mil. <- as.numeric(all.energy$Total.Known.Equity.Invested.by.Firm.to.Date..USD.Mil.)
+all.energy$Total.Known.Equity.Invested.by.Fund.to.Date..USD.Mil. <- as.numeric(all.energy$Total.Known.Equity.Invested.by.Fund.to.Date..USD.Mil.)
+all.energy$Total.Number.of.Companies.Invested.in.by.Firm <- as.numeric(all.energy$Total.Number.of.Companies.Invested.in.by.Firm)
+all.energy$Total.Number.of.Companies.Invested.in.by.Fund <- as.numeric(all.energy$Total.Number.of.Companies.Invested.in.by.Fund)
+
+
+
 write.table(all.energy, file = "All Energy.txt", sep = ",")
