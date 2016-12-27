@@ -41,6 +41,22 @@ temp.CVC$CVC.Fund <- 1
 temp.non$CVC.Fund <- 0
 all.energy <- rbind(temp.CVC, temp.non)
 
+#bankruptcy 더미만들기
+temp.bkr <- subset(all.energy, 
+                   Company.Status == "Bankruptcy - Chapter 7" |
+                   Company.Status == "Bankruptcy - Chapter 11" |
+                   Company.Status == "Defunct")
+
+temp.suc <- subset(all.energy, 
+                   Company.Status != "Bankruptcy - Chapter 7" &
+                   Company.Status != "Bankruptcy - Chapter 11" &
+                   Company.Status != "Defunct")
+
+temp.bkr$Bankruptcy <- 1
+temp.suc$Bankruptcy <- 0
+
+all.energy <- rbind(temp.bkr, temp.suc)
+
 #factor를 numeric variable로
 all.energy$Age.at.Financing..Months. <- as.numeric(all.energy$Age.at.Financing..Months.)
 all.energy$Equity.Amount.Disclosed..USD.Mil. <- as.numeric(all.energy$Equity.Amount.Disclosed..USD.Mil.)
